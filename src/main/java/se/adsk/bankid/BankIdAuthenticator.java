@@ -53,11 +53,13 @@ public class BankIdAuthenticator {
       orderReferenceCache.put(personalNumber.getValue(), orderReference);
     }
 
-    User user = collect(orderReference);
-    orderReferenceCache.remove(personalNumber.getValue());
-    log.debug("collect response: {}", user);
-
-    return user;
+    try {
+      User user = collect(orderReference);
+      log.debug("collect response: {}", user);
+      return user;
+    } finally {
+      orderReferenceCache.remove(personalNumber.getValue());
+    }
   }
 
   private User collect(String orderReference) throws FaultException {
