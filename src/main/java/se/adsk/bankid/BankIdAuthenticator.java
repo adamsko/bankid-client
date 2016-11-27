@@ -20,7 +20,7 @@ public class BankIdAuthenticator {
 
   private final RelyingPartyClient relyingPartyClient;
 
-  private final Map<String, String> orderReferenceCache = new ConcurrentHashMap<>();
+  private final Map<PersonalNumber, String> orderReferenceCache = new ConcurrentHashMap<>();
 
   private long collectIntervalMillis = DEFAULT_COLLECT_INTERVAL_MILLIS;
 
@@ -44,13 +44,13 @@ public class BankIdAuthenticator {
   public User authenticate(PersonalNumber personalNumber) throws FaultException {
     log.debug("authenticate: {}", personalNumber);
 
-    String orderReference = orderReferenceCache.get(personalNumber.getValue());
+    String orderReference = orderReferenceCache.get(personalNumber);
 
     if (orderReference == null) {
       AuthenticateResponse authenticateResponse = relyingPartyClient.authenticate(personalNumber);
       log.debug("authenticate response: {}", authenticateResponse.getOrderReference());
       orderReference = authenticateResponse.getOrderReference();
-      orderReferenceCache.put(personalNumber.getValue(), orderReference);
+      orderReferenceCache.put(personalNumber, orderReference);
     }
 
     try {
@@ -58,7 +58,7 @@ public class BankIdAuthenticator {
       log.debug("collect response: {}", user);
       return user;
     } finally {
-      orderReferenceCache.remove(personalNumber.getValue());
+      orderReferenceCache.remove(personalNumber);
     }
   }
 

@@ -62,7 +62,7 @@ public class RelyingPartyClient {
 
   private AuthenticateRequestType createAuthenticateRequest(PersonalNumber personalNumber) {
     AuthenticateRequestType authenticateRequestType = new AuthenticateRequestType();
-    authenticateRequestType.setPersonalNumber(personalNumber.getValue());
+    authenticateRequestType.setPersonalNumber(personalNumber.toString());
     return authenticateRequestType;
   }
 
