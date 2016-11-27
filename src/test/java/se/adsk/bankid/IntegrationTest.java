@@ -24,7 +24,7 @@ public class IntegrationTest {
     BankIdAuthenticator bankIdAuthenticator = new BankIdAuthenticator(relyingPartyClient);
 
     try {
-      User user = bankIdAuthenticator.authenticate(new PersonalNumber("7511307816"));
+      User user = bankIdAuthenticator.authenticate(PersonalNumber.parse("7511307816"));
       log.info("Authenticated user: {}", user);
     } catch (FaultException e) {
       log.info("Authentication fault: {}", e);

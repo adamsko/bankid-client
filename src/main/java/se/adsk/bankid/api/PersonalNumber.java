@@ -1,5 +1,7 @@
 package se.adsk.bankid.api;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.regex.Pattern;
 
 /**
@@ -11,19 +13,18 @@ public class PersonalNumber {
 
   private final String value;
 
-  public PersonalNumber(String personalNumber) {
-    if (personalNumber == null) {
-      throw new NullPointerException("personalNumber cannot be null");
-    }
+  private PersonalNumber(String personalNumber) {
+    this.value = requireNonNull(personalNumber, "personalNumber cannot be null");
+
     if (!personalNumber.matches(PERSONAL_NUMBER_PATTERN.pattern())) {
       throw new IllegalArgumentException("The personal number <" + personalNumber + "> did not match the pattern <" + PERSONAL_NUMBER_PATTERN.pattern() + ">");
     }
-    this.value = personalNumber;
   }
 
-  public String getValue() {
-    return value;
+  public static PersonalNumber parse(String value) {
+    return new PersonalNumber(value);
   }
+
 
   @Override public String toString() {
     return value;
