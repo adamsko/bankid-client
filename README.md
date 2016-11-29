@@ -18,7 +18,7 @@ RelyingPartyClient relyingPartyClient = new RelyingPartyClient(serviceConfigurat
 BankIdAuthenticator bankIdAuthenticator = new BankIdAuthenticator(relyingPartyClient);
 
 try {
-  User user = bankIdAuthenticator.authenticate(new PersonalNumber("7511307816"));
+  User user = bankIdAuthenticator.authenticate(PersonalNumber.parse("7511307816"));
   // Authenticated
 } catch (FaultException e) {
   // Authentication failed
